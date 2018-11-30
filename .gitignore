@@ -15,3 +15,11 @@
 .DS_Store
 
 vendor
+
+
+# Project specific files.
+twitz
+tweeters.txt
+tweeters.xml
+tweeters.json
+tweeters.csv

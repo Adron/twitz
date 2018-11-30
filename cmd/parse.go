@@ -16,35 +16,68 @@ package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"io/ioutil"
+	"regexp"
+	"strings"
 )
 
 // parseCmd represents the parse command
 var parseCmd = &cobra.Command{
 	Use:   "parse",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "This command will extract the Twitter Accounts form a text file.",
+	Long: `This command will extract the Twitter Accounts and clean up or disregard other characters 
+or text around the twitter accounts to create a simple, clean, Twitter Accounts only list.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("parse called")
+		theFile := viper.GetString("file")
+		theTwitterers, err := ioutil.ReadFile(theFile)
+		check(err)
+
+		stringTwitterers := string(theTwitterers[:])
+		splitFields := strings.Fields(stringTwitterers)
+
+		var completedTwittererList []string
+
+		for _, aField := range splitFields {
+			if strings.HasPrefix(aField, "@") && aField != "@" {
+				reg, _ := regexp.Compile("[^a-zA-Z0-9_@]")
+				processedString := reg.ReplaceAllString(aField, "")
+				completedTwittererList = append(completedTwittererList, processedString)
+			}
+		}
+
+		fmt.Println(completedTwittererList)
+
+		exporterThingy(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)
 	},
+}
+
+func exporterThingy(exportFilename string, exportFormat string, twittererList []string) {
+	if exportFormat == "txt" {
+		fmt.Printf("Starting txt export to %s.", exportFilename)
+
+		var collectedContent string
+		for _, twitterAccount := range twittererList {
+			collectedContent = collectedContent + "\n" + twitterAccount
+		}
+
+		contentBytes := []byte(collectedContent)
+		err := ioutil.WriteFile(exportFilename+"."+exportFormat, contentBytes, 0644)
+		check(err)
+	} else if exportFormat == "json" {
+
+	} else if exportFormat == "xml" {
+
+	} else if exportFormat == "csv" {
+
+	} else {
+		fmt.Println("Export type unsupported.")
+	}
 }
 
 func init() {
 	rootCmd.AddCommand(parseCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// parseCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// parseCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.PersistentFlags().StringVar(&export, "export", "file-being-exported", "Set this by passing in the export file.")
+	//viper.BindPFlag("export", rootCmd.PersistentFlags().Lookup("export"))
 }

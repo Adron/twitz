@@ -6,6 +6,10 @@ Sample File Created by @Adron for the Project on @ThrashingCode Twitch.
 
 @Microsoft,
 @Google,
-@Cheese
+@Cheese.
+
+@cmgriffing is another Twitter handle just like a Twitch handle!
+
+@
 
 This is a great sample file!

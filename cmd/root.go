@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -36,7 +36,7 @@ func initConfig() {
 	viper.SetConfigFile(configFile)
 	viper.AutomaticEnv()
 
-	if err := viper.ReadInConfig(); err == nil() {
+	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using configuration file: ", viper.ConfigFileUsed())
 	}
 }
