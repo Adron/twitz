@@ -15,6 +15,8 @@
 package cmd
 
 import (
+	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -49,35 +51,76 @@ or text around the twitter accounts to create a simple, clean, Twitter Accounts 
 
 		fmt.Println(completedTwittererList)
 
-		exporterThingy(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)
+		if viper.Get("fileExport") != nil {
+			exporterThingy(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)
+		}
 	},
 }
 
 func exporterThingy(exportFilename string, exportFormat string, twittererList []string) {
 	if exportFormat == "txt" {
-		fmt.Printf("Starting txt export to %s.", exportFilename)
-
-		var collectedContent string
-		for _, twitterAccount := range twittererList {
-			collectedContent = collectedContent + "\n" + twitterAccount
-		}
-
-		contentBytes := []byte(collectedContent)
-		err := ioutil.WriteFile(exportFilename+"."+exportFormat, contentBytes, 0644)
-		check(err)
+		exportTxt(exportFilename, twittererList, exportFormat)
 	} else if exportFormat == "json" {
-
+		exportJson(exportFilename, twittererList, exportFormat)
 	} else if exportFormat == "xml" {
-
+		exportXml(exportFilename, twittererList, exportFormat)
 	} else if exportFormat == "csv" {
-
+		exportCsv(exportFilename, twittererList, exportFormat)
 	} else {
 		fmt.Println("Export type unsupported.")
 	}
 }
 
+func exportXml(exportFilename string, twittererList []string, exportFormat string) {
+	fmt.Printf("Starting xml export to %s.", exportFilename)
+	xmlContent, err := xml.Marshal(twittererList)
+	check(err)
+	header := xml.Header
+	collectedContent := header + string(xmlContent)
+	exportFile(collectedContent, exportFilename+"."+exportFormat)
+}
+
+func exportCsv(exportFilename string, twittererList []string, exportFormat string) {
+	fmt.Printf("Starting txt export to %s.", exportFilename)
+	collectedContent := rebuildForExport(twittererList, ",")
+	exportFile(collectedContent, exportFilename+"."+exportFormat)
+}
+
+func exportTxt(exportFilename string, twittererList []string, exportFormat string) {
+	fmt.Printf("Starting %s export to %s.", exportFormat, exportFilename)
+	collectedContent := rebuildForExport(twittererList, "\n")
+	exportFile(collectedContent, exportFilename+"."+exportFormat)
+}
+
+func exportJson(exportFilename string, twittererList []string, exportFormat string) {
+	fmt.Printf("Starting %s export to %s.", exportFormat, exportFilename)
+	collectedContent := collectContent(twittererList)
+	exportFile(string(collectedContent), exportFilename+"."+exportFormat)
+}
+
+func collectContent(twittererList []string) []byte {
+	collectedContent, err := json.Marshal(twittererList)
+	check(err)
+	return collectedContent
+}
+
+func rebuildForExport(twittererList []string, concat string) string {
+	var collectedContent string
+	for _, twitterAccount := range twittererList {
+		collectedContent = collectedContent + concat + twitterAccount
+	}
+	if concat == "," {
+		collectedContent = strings.TrimLeft(collectedContent, concat)
+	}
+	return collectedContent
+}
+
+func exportFile(collectedContent string, exportFile string) {
+	contentBytes := []byte(collectedContent)
+	err := ioutil.WriteFile(exportFile, contentBytes, 0644)
+	check(err)
+}
+
 func init() {
 	rootCmd.AddCommand(parseCmd)
-	//rootCmd.PersistentFlags().StringVar(&export, "export", "file-being-exported", "Set this by passing in the export file.")
-	//viper.BindPFlag("export", rootCmd.PersistentFlags().Lookup("export"))
 }

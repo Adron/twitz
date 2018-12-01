@@ -34,7 +34,13 @@ func initConfig() {
 	configFile = ".twitz.yaml"
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(configFile)
+
 	viper.AutomaticEnv()
+	viper.SetEnvPrefix("twitz")
+	viper.BindEnv("api_consumer_key")
+	viper.BindEnv("api_consumer_secret")
+	viper.BindEnv("access_token")
+	viper.BindEnv("access_token_secret")
 
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using configuration file: ", viper.ConfigFileUsed())
