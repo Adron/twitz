@@ -21,7 +21,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
-	"regexp"
 	"strings"
 )
 
@@ -32,32 +31,15 @@ var parseCmd = &cobra.Command{
 	Long: `This command will extract the Twitter Accounts and clean up or disregard other characters 
 or text around the twitter accounts to create a simple, clean, Twitter Accounts only list.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		theFile := viper.GetString("file")
-		theTwitterers, err := ioutil.ReadFile(theFile)
-		check(err)
-
-		stringTwitterers := string(theTwitterers[:])
-		splitFields := strings.Fields(stringTwitterers)
-
-		var completedTwittererList []string
-
-		for _, aField := range splitFields {
-			if strings.HasPrefix(aField, "@") && aField != "@" {
-				reg, _ := regexp.Compile("[^a-zA-Z0-9_@]")
-				processedString := reg.ReplaceAllString(aField, "")
-				completedTwittererList = append(completedTwittererList, processedString)
-			}
-		}
-
+		completedTwittererList := buildTwitterList()
 		fmt.Println(completedTwittererList)
-
 		if viper.Get("fileExport") != nil {
-			exporterThingy(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)
+			exportParsedTwitterList(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)
 		}
 	},
 }
 
-func exporterThingy(exportFilename string, exportFormat string, twittererList []string) {
+func exportParsedTwitterList(exportFilename string, exportFormat string, twittererList []string) {
 	if exportFormat == "txt" {
 		exportTxt(exportFilename, twittererList, exportFormat)
 	} else if exportFormat == "json" {

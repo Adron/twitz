@@ -2,10 +2,46 @@
 
 
 [[projects]]
+  name = "github.com/cenkalti/backoff"
+  packages = ["."]
+  revision = "62661b46c4093e2c1f38d943e663db1a29873e80"
+  version = "v2.1.0"
+
+[[projects]]
+  name = "github.com/coreos/pkg"
+  packages = ["flagutil"]
+  revision = "97fdf19511ea361ae1c100dd393cc47f8dcfa1e1"
+  version = "v4"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/dghubble/go-twitter"
+  packages = ["twitter"]
+  revision = "22c4b7bc9a27d64433c5c9c419311b53f899eac1"
+
+[[projects]]
+  name = "github.com/dghubble/oauth1"
+  packages = ["."]
+  revision = "f0fe2bff8fbf301b33359ca431e4afc90390aab0"
+  version = "v0.5.0"
+
+[[projects]]
+  name = "github.com/dghubble/sling"
+  packages = ["."]
+  revision = "e2624bf29a7de45ab0802b09aea94ca0a7815c5f"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
   version = "v1.4.7"
+
+[[projects]]
+  name = "github.com/google/go-querystring"
+  packages = ["query"]
+  revision = "44c6ddd0a2342c386950e880b658017258da92fc"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/hashicorp/hcl"
@@ -94,6 +130,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6f63b94e8c04461e2605dd6103d355c17b54bd97fa6dd71a87ba027bf6d03165"
+  inputs-digest = "999d43cf0d1c1f174b3663967986bf3cbb53b9951826d4a95bff53ba924d5316"
   solver-name = "gps-cdcl"
   solver-version = 1

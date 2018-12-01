@@ -16,7 +16,8 @@ package cmd
 
 import (
 	"fmt"
-
+	"github.com/dghubble/go-twitter/twitter"
+	"github.com/dghubble/oauth1"
 	"github.com/spf13/cobra"
 )
 
@@ -31,20 +32,49 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("findem called")
+
+		// TODO: Work through each account and retrieve key information displaying it to screen and exporting to file.
+
+		fmt.Println("Starting Twitter Information Retrieval.")
+		completedTwitterList := buildTwitterList()
+		for _, account := range completedTwitterList {
+			fmt.Println("Looking into %s's TWitter Activity.", account)
+			getAccountInfo(account)
+		}
+
 	},
+}
+
+func getAccountInfo(account string){
+
+	keysTokens := getKeysAndTokens()
+	fmt.Println(account)
+	fmt.Println(keysTokens)
+
+	consumerKey := keysTokens.ConsumerApiKey
+	consumerSecret := keysTokens.ConsumerApiSecret
+	accessToken := keysTokens.AccessToken
+	accessSecret := keysTokens.AccessTokenSecret
+
+	config := oauth1.NewConfig(consumerKey, consumerSecret)
+	token := oauth1.NewToken(accessToken, accessSecret)
+	// OAuth1 http.Client will automatically authorize Requests
+	httpClient := config.Client(oauth1.NoContext, token)
+
+	// Twitter client
+	client := twitter.NewClient(httpClient)
+
+	// Verify Credentials
+	verifyParams := &twitter.AccountVerifyParams{
+		SkipStatus:   twitter.Bool(true),
+		IncludeEmail: twitter.Bool(true),
+	}
+
+	user, _, err := client.Accounts.VerifyCredentials(verifyParams)
+	check(err)
+	fmt.Printf("User's ACCOUNT:\n%+v\n", user)
 }
 
 func init() {
 	rootCmd.AddCommand(findemCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// findemCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// findemCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
