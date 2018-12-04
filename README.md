@@ -1,6 +1,6 @@
 # Twits
 
-[![Build Status](https://travis-ci.org/ThrashingCode/Twits.svg?branch=master)](https://travis-ci.org/ThrashingCode/Twits)
+[![Build Status](https://travis-ci.org/Adron/Twitz.svg?branch=master)](https://travis-ci.org/Adron/Twitz)
 
 This application is about all of us lovely twits on Twitter! A CLI tool to help introspect acounts to follow and make Twitter more useful to one's interests.
 
