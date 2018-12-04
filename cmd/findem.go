@@ -15,10 +15,16 @@
 package cmd
 
 import (
+	b64 "encoding/base64"
+	"encoding/json"
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
 	"github.com/spf13/cobra"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
 )
 
 // findemCmd represents the findem command
@@ -56,6 +62,45 @@ func getAccountInfo(account string){
 	accessToken := keysTokens.AccessToken
 	accessSecret := keysTokens.AccessTokenSecret
 
+	var tok BearerToken
+	req, err := http.NewRequest("POST", "https://api.twitter.com/oauth2/token", strings.NewReader("grant_type=client_credentials"))
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+
+		data := consumerKey + ":" + consumerSecret
+		b64Token := b64.StdEncoding.EncodeToString([]byte(data))
+		fmt.Printf("Base64 Encode Token: %s\n", b64Token)
+
+		req.Header.Add("Authorization", "Basic " + b64Token)
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+
+		access_tok_client := &http.Client{}
+
+		resp, err := access_tok_client.Do(req)
+
+		if err != nil {
+			log.Fatal(err)
+		} else {
+			bearer, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				log.Fatal(err)
+			} else {
+				err := json.Unmarshal(bearer, &tok)
+
+				if err != nil {
+					log.Fatal(err)
+				} else {
+					log.Printf("%s", tok.Access_Token)
+				}
+			}
+		}
+	}
+	fmt.Printf("Retrieved Access Token: %s", tok.Access_Token)
+
+	accessToken = tok.Access_Token
+
 	config := oauth1.NewConfig(consumerKey, consumerSecret)
 	token := oauth1.NewToken(accessToken, accessSecret)
 	// OAuth1 http.Client will automatically authorize Requests
@@ -73,6 +118,11 @@ func getAccountInfo(account string){
 	user, _, err := client.Accounts.VerifyCredentials(verifyParams)
 	check(err)
 	fmt.Printf("User's ACCOUNT:\n%+v\n", user)
+}
+
+type BearerToken struct {
+	Token_Type string
+	Access_Token string
 }
 
 func init() {
