@@ -2,16 +2,16 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/Adron/twitz"
+  packages = ["cmd"]
+  revision = "bfff50fe396eeb09e198c1e944c281e5cfb447ee"
+
+[[projects]]
   name = "github.com/cenkalti/backoff"
   packages = ["."]
   revision = "62661b46c4093e2c1f38d943e663db1a29873e80"
   version = "v2.1.0"
-
-[[projects]]
-  name = "github.com/coreos/pkg"
-  packages = ["flagutil"]
-  revision = "97fdf19511ea361ae1c100dd393cc47f8dcfa1e1"
-  version = "v4"
 
 [[projects]]
   branch = "master"
@@ -130,6 +130,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "999d43cf0d1c1f174b3663967986bf3cbb53b9951826d4a95bff53ba924d5316"
+  inputs-digest = "8bffb9c54c3e82f455a550f3269e8ca7b6fc6e804899f9bded3987bf04b5064e"
   solver-name = "gps-cdcl"
   solver-version = 1
