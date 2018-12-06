@@ -8,7 +8,6 @@ import (
 )
 
 var configFile string
-var export string
 
 var rootCmd = &cobra.Command{
 	Use:   "twitz",
@@ -37,10 +36,8 @@ func initConfig() {
 
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix("twitz")
-	viper.BindEnv("api_consumer_key")
-	viper.BindEnv("api_consumer_secret")
-	viper.BindEnv("access_token")
-	viper.BindEnv("access_token_secret")
+	check(viper.BindEnv("api_consumer_key"))
+	check(viper.BindEnv("api_consumer_secret"))
 
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using configuration file: ", viper.ConfigFileUsed())

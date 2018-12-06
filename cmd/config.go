@@ -36,8 +36,6 @@ to quickly create a Cobra application.`,
 		fmt.Printf("Export Format: %s\n", viper.GetString("fileFormat"))
 		fmt.Printf("Consumer API Key: %s\n", viper.GetString("consumer_api_key")[0:6])
 		fmt.Printf("Consumer API Secret: %s\n", viper.GetString("consumer_api_secret")[0:6])
-		fmt.Printf("Access Token: %s\n", viper.GetString("access_token")[0:6])
-		fmt.Printf("Access Token Secret: %s\n", viper.GetString("access_token_secret")[0:6])
 	},
 }
 

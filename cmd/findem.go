@@ -15,19 +15,15 @@
 package cmd
 
 import (
-	b64 "encoding/base64"
-	"encoding/json"
+	"context"
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
-	"github.com/dghubble/oauth1"
 	"github.com/spf13/cobra"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"strings"
+	"github.com/spf13/viper"
+
+	"golang.org/x/oauth2"
 )
 
-// findemCmd represents the findem command
 var findemCmd = &cobra.Command{
 	Use:   "findem",
 	Short: "A brief description of your command",
@@ -39,90 +35,31 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		// TODO: Work through each account and retrieve key information displaying it to screen and exporting to file.
-
 		fmt.Println("Starting Twitter Information Retrieval.")
 		completedTwitterList := buildTwitterList()
-		for _, account := range completedTwitterList {
-			fmt.Println("Looking into %s's TWitter Activity.", account)
-			getAccountInfo(account)
-		}
 
-	},
-}
+		fmt.Printf("Getting Twitter details for: \n%s", completedTwitterList)
 
-func getAccountInfo(account string){
-
-	keysTokens := getKeysAndTokens()
-	fmt.Println(account)
-	fmt.Println(keysTokens)
-
-	consumerKey := keysTokens.ConsumerApiKey
-	consumerSecret := keysTokens.ConsumerApiSecret
-	accessToken := keysTokens.AccessToken
-	accessSecret := keysTokens.AccessTokenSecret
-
-	var tok BearerToken
-	req, err := http.NewRequest("POST", "https://api.twitter.com/oauth2/token", strings.NewReader("grant_type=client_credentials"))
-
-	if err != nil {
-		log.Fatal(err)
-	} else {
-
-		data := consumerKey + ":" + consumerSecret
-		b64Token := b64.StdEncoding.EncodeToString([]byte(data))
-		fmt.Printf("Base64 Encode Token: %s\n", b64Token)
-
-		req.Header.Add("Authorization", "Basic " + b64Token)
-		req.Header.Add("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
-
-		access_tok_client := &http.Client{}
-
-		resp, err := access_tok_client.Do(req)
-
+		accessToken, err := getBearerToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
 		if err != nil {
-			log.Fatal(err)
-		} else {
-			bearer, err := ioutil.ReadAll(resp.Body)
-			if err != nil {
-				log.Fatal(err)
-			} else {
-				err := json.Unmarshal(bearer, &tok)
-
-				if err != nil {
-					log.Fatal(err)
-				} else {
-					log.Printf("%s", tok.Access_Token)
-				}
-			}
+			fmt.Printf("Oh my gerd!!!! ERRRRRROR! \n%s", accessToken)
 		}
-	}
-	fmt.Printf("Retrieved Access Token: %s", tok.Access_Token)
 
-	accessToken = tok.Access_Token
+		config := &oauth2.Config{}
+		token := &oauth2.Token{AccessToken: accessToken}
+		// OAuth2 http.Client will automatically authorize Requests
+		httpClient := config.Client(context.Background(), token)
+		// Twitter client
+		client := twitter.NewClient(httpClient)
 
-	config := oauth1.NewConfig(consumerKey, consumerSecret)
-	token := oauth1.NewToken(accessToken, accessSecret)
-	// OAuth1 http.Client will automatically authorize Requests
-	httpClient := config.Client(oauth1.NoContext, token)
+		// users lookup
+		userLookupParams := &twitter.UserLookupParams{ScreenName: []string{"adron", "lenadroid"}}
+		users, _, _ := client.Users.Lookup(userLookupParams)
+		fmt.Printf("\n\nUSERS LOOKUP:\n%+v\n", users)
 
-	// Twitter client
-	client := twitter.NewClient(httpClient)
-
-	// Verify Credentials
-	verifyParams := &twitter.AccountVerifyParams{
-		SkipStatus:   twitter.Bool(true),
-		IncludeEmail: twitter.Bool(true),
-	}
-
-	user, _, err := client.Accounts.VerifyCredentials(verifyParams)
-	check(err)
-	fmt.Printf("User's ACCOUNT:\n%+v\n", user)
-}
-
-type BearerToken struct {
-	Token_Type string
-	Access_Token string
+		howManyUsersFound := len(users)
+		fmt.Println(howManyUsersFound)
+	},
 }
 
 func init() {
