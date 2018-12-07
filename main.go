@@ -1,6 +1,6 @@
 package main
 
-import "github.com/Adron/twitz/cmd"
+import "github.com/adron/twitz/cmd"
 
 func main() {
 	cmd.Execute()

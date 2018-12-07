@@ -23,7 +23,6 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// findemCmd represents the findem command
 var findemCmd = &cobra.Command{
 	Use:   "findem",
 	Short: "A brief description of your command",
@@ -35,27 +34,26 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		// TODO: Work through each account and retrieve key information displaying it to screen and exporting to file.
-
 		fmt.Println("Starting Twitter Information Retrieval.")
 		completedTwitterList := buildTwitterList()
 
 		fmt.Println(completedTwitterList)
+		fmt.Printf("Getting Twitter details for: \n%s", completedTwitterList)
 
-		accessToken, err := getToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
+		accessToken, err := getBearerToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
 		check(err)
-
-		fmt.Printf("Access Token Retreived: %s", accessToken)
 
 		config := &oauth2.Config{}
 		token := &oauth2.Token{AccessToken: accessToken}
+		// OAuth2 http.Client will automatically authorize Requests
 		httpClient := config.Client(context.Background(), token)
+		// Twitter client
 		client := twitter.NewClient(httpClient)
 
-		userParams := &twitter.UserLookupParams{ScreenName: []string{"@Adron"}}
-		users, _, err := client.Users.Lookup(userParams)
-
-		fmt.Printf("\n\nUser Info: \n%+v\n", users)
+		// users lookup
+		userLookupParams := &twitter.UserLookupParams{ScreenName: []string{"adron", "lenadroid"}}
+		users, _, _ := client.Users.Lookup(userLookupParams)
+		fmt.Printf("\n\nUsers:\n%+v\n", users)
 
 		howManyUsersFound := len(users)
 		fmt.Println(howManyUsersFound)
