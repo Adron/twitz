@@ -24,7 +24,8 @@ First open up the .twitz.yaml file and set the values per your preferred file to
 
 ```
 file: twitterers.txt
-export: tweeters.txt
+fileExport: tweeters
+fileFormat: txt
 ```
 
 Next is the twitterers.txt file. Which, depending on what you've set in the .twitz.yaml file might be named whatever you've designated it. A twitterers.txt file can have a pretty wide array of text in the file, but specifically it needs at least one Twitter account somewhere in the deluge of text. An example is included below.
