@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/adron/twitz"
+  packages = ["cmd"]
+  revision = "c5be7d5cb6113a6f9940a83063b8b44a226facfa"
+
+[[projects]]
   name = "github.com/cenkalti/backoff"
   packages = ["."]
   revision = "62661b46c4093e2c1f38d943e663db1a29873e80"
@@ -142,6 +148,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "60cc06f1333985b56d2c9653c1206af67ceb494f91bded7e0b0bbc9b11d1751b"
+  inputs-digest = "355003c04b7ff080dfc522a5230e89b7c27a79c957c0ce630bbf15367a070b92"
   solver-name = "gps-cdcl"
   solver-version = 1
