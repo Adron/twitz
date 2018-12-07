@@ -37,7 +37,6 @@ to quickly create a Cobra application.`,
 		fmt.Println("Starting Twitter Information Retrieval.")
 		completedTwitterList := buildTwitterList()
 
-		fmt.Println(completedTwitterList)
 		fmt.Printf("Getting Twitter details for: \n%s", completedTwitterList)
 
 		accessToken, err := getBearerToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
@@ -51,7 +50,7 @@ to quickly create a Cobra application.`,
 		client := twitter.NewClient(httpClient)
 
 		// users lookup
-		userLookupParams := &twitter.UserLookupParams{ScreenName: []string{"adron", "lenadroid"}}
+		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwitterList}
 		users, _, _ := client.Users.Lookup(userLookupParams)
 		fmt.Printf("\n\nUsers:\n%+v\n", users)
 
