@@ -15,10 +15,12 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
-	"github.com/dghubble/oauth1"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"golang.org/x/oauth2"
 )
 
 // findemCmd represents the findem command
@@ -37,42 +39,25 @@ to quickly create a Cobra application.`,
 
 		fmt.Println("Starting Twitter Information Retrieval.")
 		completedTwitterList := buildTwitterList()
-		for _, account := range completedTwitterList {
-			fmt.Println("Looking into %s's TWitter Activity.", account)
-			getAccountInfo(account)
-		}
 
+		fmt.Println(completedTwitterList)
+
+		accessToken, err := getToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
+		check(err)
+
+		config := &oauth2.Config{}
+		token := &oauth2.Token{AccessToken: accessToken}
+		httpClient := config.Client(context.Background(), token)
+		client := twitter.NewClient(httpClient)
+
+		userParams := &twitter.UserLookupParams{ScreenName: []string{"@Adron"}}
+		users, _, err := client.Users.Lookup(userParams)
+
+		fmt.Printf("\n\nUser Info: \n%+v\n", users)
+
+		howManyUsersFound := len(users)
+		fmt.Println(howManyUsersFound)
 	},
-}
-
-func getAccountInfo(account string){
-
-	keysTokens := getKeysAndTokens()
-	fmt.Println(account)
-	fmt.Println(keysTokens)
-
-	consumerKey := keysTokens.ConsumerApiKey
-	consumerSecret := keysTokens.ConsumerApiSecret
-	accessToken := keysTokens.AccessToken
-	accessSecret := keysTokens.AccessTokenSecret
-
-	config := oauth1.NewConfig(consumerKey, consumerSecret)
-	token := oauth1.NewToken(accessToken, accessSecret)
-	// OAuth1 http.Client will automatically authorize Requests
-	httpClient := config.Client(oauth1.NoContext, token)
-
-	// Twitter client
-	client := twitter.NewClient(httpClient)
-
-	// Verify Credentials
-	verifyParams := &twitter.AccountVerifyParams{
-		SkipStatus:   twitter.Bool(true),
-		IncludeEmail: twitter.Bool(true),
-	}
-
-	user, _, err := client.Accounts.VerifyCredentials(verifyParams)
-	check(err)
-	fmt.Printf("User's ACCOUNT:\n%+v\n", user)
 }
 
 func init() {

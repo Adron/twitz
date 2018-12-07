@@ -38,6 +38,12 @@
   version = "v1.4.7"
 
 [[projects]]
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/google/go-querystring"
   packages = ["query"]
   revision = "44c6ddd0a2342c386950e880b658017258da92fc"
@@ -111,6 +117,18 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/net"
+  packages = ["context","context/ctxhttp"]
+  revision = "351d144fa1fc0bd934e2408202be0c29f25e35a0"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/oauth2"
+  packages = [".","internal"]
+  revision = "d668ce993890a79bda886613ee587a69dd5da7a6"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
   revision = "4ed8d59d0b35e1e29334a206d1b3f38b1e5dfb31"
@@ -122,6 +140,12 @@
   version = "v0.3.0"
 
 [[projects]]
+  name = "google.golang.org/appengine"
+  packages = ["internal","internal/base","internal/datastore","internal/log","internal/remote_api","internal/urlfetch","urlfetch"]
+  revision = "4a4468ece617fc8205e99368fa2200e9d1fad421"
+  version = "v1.3.0"
+
+[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
@@ -130,6 +154,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8bffb9c54c3e82f455a550f3269e8ca7b6fc6e804899f9bded3987bf04b5064e"
+  inputs-digest = "d8dcedffc1a3a1240a5f46ce7e203be7b1183407f476ac0f3c61f87028b5e562"
   solver-name = "gps-cdcl"
   solver-version = 1
