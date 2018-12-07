@@ -45,6 +45,8 @@ to quickly create a Cobra application.`,
 		accessToken, err := getToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
 		check(err)
 
+		fmt.Printf("Access Token Retreived: %s", accessToken)
+
 		config := &oauth2.Config{}
 		token := &oauth2.Token{AccessToken: accessToken}
 		httpClient := config.Client(context.Background(), token)
