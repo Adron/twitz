@@ -1,37 +1,61 @@
-## Welcome to GitHub Pages
+# Twitz
 
-You can use the [editor on GitHub](https://github.com/Adron/twitz/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+[![Build Status](https://travis-ci.org/Adron/Twitz.svg?branch=master)](https://travis-ci.org/Adron/Twitz)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This application is about all of us lovely twitz on Twitter! A CLI tool to help introspect acounts to follow and make Twitter more useful to one's interests.
 
-### Markdown
+## Installation
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+No official install process yet besides the ole' `go get` or `go install` method. I'll write more docs in the future when I get an official version released.
 
-```markdown
-Syntax highlighted code block
+## Dev Setup
 
-# Header 1
-## Header 2
-### Header 3
+`dep ensure` to get the dependencies.
 
-- Bulleted
-- List
+`go build` to build and use the executable.
 
-1. Numbered
-2. List
+etc.
 
-**Bold** and _Italic_ and `Code` text
+## Post Installation Prereqs
 
-[Link](url) and ![Image](src)
+Once the command is built and ready for use, you'll need to get your .twitz.yaml, twitterers.txt, and export files configured.
+
+First open up the .twitz.yaml file and set the values per your preferred file to parse and what file you want to export out to. An example .twitz.yaml file has the following values and some standard settings.
+
+```
+file: twitterers.txt
+export: tweeters.txt
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Next is the twitterers.txt file. Which, depending on what you've set in the .twitz.yaml file might be named whatever you've designated it. A twitterers.txt file can have a pretty wide array of text in the file, but specifically it needs at least one Twitter account somewhere in the deluge of text. An example is included below.
 
-### Jekyll Themes
+```
+This is a sample twitterers.txt file created by @Adron.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Adron/twitz/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+You can add a list like this; @Adron, @angryseattle, and @jessefraz or you could go horizontal!
 
-### Support or Contact
+@Adron
+@angryseattle
+@pdxtst
+```
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+The result of that file would actually spit out something just like this when issuing the `twitz parse` command.
+
+```
+Using config file:  .twitz.yaml
+[@Adron @Adron @angryseattle @jessefraz @Adron @angryseattle @pdxtst]
+```
+
+There is also a more elaborate example [here](twitterers.txt).
+
+## Commands & Usage
+
+First and foremost you'll need a text file of Twitter accounts listed in a file called `twitterers.txt`. This file will be parsed and pull out the accounts within the file. For more information on the file and the formatting check out [twitterers file](twitterers-file.md).
+
+`twitz` will just list out some basic documentation, commands, and other information related to the CLI itself.
+
+`twitz config` is a command that will show what is set in the .twitz.yaml configuration file.
+
+`twitz parse` this is the main command that'll parse out the *twitterers.txt* file and provide a list of any Twitter accounts in the file to the console.
+
+`twitz findem` ... TBD ...
