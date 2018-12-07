@@ -1,6 +1,8 @@
 # Twitz
 
-[![Build Status](https://travis-ci.org/Adron/Twitz.svg?branch=master)](https://travis-ci.org/Adron/Twitz)
+[![Build Status](https://travis-ci.org/Adron/twitz.svg?branch=master)](https://travis-ci.org/Adron/twitz)
+
+
 
 This application is about all of us lovely twitz on Twitter! A CLI tool to help introspect acounts to follow and make Twitter more useful to one's interests.
 
