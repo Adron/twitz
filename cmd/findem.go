@@ -41,9 +41,7 @@ to quickly create a Cobra application.`,
 		fmt.Printf("Getting Twitter details for: \n%s", completedTwitterList)
 
 		accessToken, err := getBearerToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
-		if err != nil {
-			fmt.Printf("Oh my gerd!!!! ERRRRRROR! \n%s", accessToken)
-		}
+		check(err)
 
 		config := &oauth2.Config{}
 		token := &oauth2.Token{AccessToken: accessToken}
@@ -55,7 +53,7 @@ to quickly create a Cobra application.`,
 		// users lookup
 		userLookupParams := &twitter.UserLookupParams{ScreenName: []string{"adron", "lenadroid"}}
 		users, _, _ := client.Users.Lookup(userLookupParams)
-		fmt.Printf("\n\nUSERS LOOKUP:\n%+v\n", users)
+		fmt.Printf("\n\nUsers:\n%+v\n", users)
 
 		howManyUsersFound := len(users)
 		fmt.Println(howManyUsersFound)
