@@ -17,6 +17,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // configCmd represents the config command
@@ -27,6 +28,14 @@ var configCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		passed, err := validateRequiredConfig()
 		fmt.Printf("Did validation pass? %t\n%s", passed, err)
+
+		if passed {
+			fmt.Printf("Twitterers File: %s\n", viper.GetString("file"))
+			fmt.Printf("Export File: %s\n", viper.GetString("fileExport"))
+			fmt.Printf("Export Format: %s\n", viper.GetString("fileFormat"))
+			fmt.Printf("Consumer API Key: %s\n", viper.GetString("consumer_api_key")[0:6])
+			fmt.Printf("Consumer API Secret: %s\n", viper.GetString("consumer_api_secret")[0:6])
+		}
 	},
 }
 
