@@ -39,7 +39,7 @@ to quickly create a Cobra application.`,
 
 		fmt.Printf("Getting Twitter details for: \n%s", completedTwitterList)
 
-		accessToken, err := getBearerToken(viper.GetString("consumer_api_key"), viper.GetString("consumer_api_secret"))
+		accessToken, err := getBearerToken(viper.GetString("api_consumer_key"), viper.GetString("api_consumer_secret"))
 		check(err)
 
 		config := &oauth2.Config{}
