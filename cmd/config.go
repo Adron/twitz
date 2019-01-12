@@ -17,25 +17,16 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // configCmd represents the config command
 var configCmd = &cobra.Command{
 	Use:   "config",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For the custom example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "A quick view into the environment and configuration variables and validation of.",
+	Long:  `This command provides a quick view of the configuration variables of the configuration file and any environment variables, and validation of.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Twitterers File: %s\n", viper.GetString("file"))
-		fmt.Printf("Export File: %s\n", viper.GetString("fileExport"))
-		fmt.Printf("Export Format: %s\n", viper.GetString("fileFormat"))
-		fmt.Printf("Consumer API Key: %s\n", viper.GetString("consumer_api_key")[0:6])
-		fmt.Printf("Consumer API Secret: %s\n", viper.GetString("consumer_api_secret")[0:6])
+		passed, err := validateRequiredConfig()
+		fmt.Printf("Did validation pass? %t\n%s", passed, err)
 	},
 }
 
