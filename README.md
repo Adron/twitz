@@ -1,6 +1,8 @@
 # Twitz
 
-[![Build Status](https://travis-ci.org/Adron/twitz.svg?branch=master)](https://travis-ci.org/Adron/twitz)
+[![Build Status](https://travis-ci.org/Adron/twitz.svg?branch=master)](https://travis-ci.org/Adron/twitz) [![Trello Board](https://img.shields.io/badge/trello-board-purple.svg)](https://trello.com/b/1vxsOsUa/thrashing-code-projects)
+
+[![Twitter @Adron](https://img.shields.io/twitter/follow/adron.svg?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=adron) [![Twitter @ThrashingCode](https://img.shields.io/twitter/follow/ThrashingCode.svg?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=ThrashingCode)
 
 This application is about all of us lovely twitz on Twitter! A CLI tool to help introspect acounts to follow and make Twitter more useful to one's interests.
 
