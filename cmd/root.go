@@ -36,8 +36,8 @@ func initConfig() {
 
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix("twitz")
-	check(viper.BindEnv("api_consumer_key"))
-	check(viper.BindEnv("api_consumer_secret"))
+	check(viper.BindEnv("api_key"))
+	check(viper.BindEnv("api_secret"))
 
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using configuration file: ", viper.ConfigFileUsed())
