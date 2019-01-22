@@ -83,8 +83,8 @@ func validateRequiredConfig() (bool, error) {
 	consumerApiKeySet := Contains(allKeys, "api_key")
 	consumerApiSecretSet := Contains(allKeys, "api_secret")
 
-	if !fileFormatSet || !fileSet || !fileExportSet {
-		errorsList = append(errorsList, "Required configuration for export are not set. File format, file, and export values need set in the configuration file.")
+	if !fileSet {
+		errorsList = append(errorsList, "The file to parse for the Twitter list needs to be specified.")
 		keysPass = false
 	}
 

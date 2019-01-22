@@ -33,7 +33,10 @@ or text around the twitter accounts to create a simple, clean, Twitter Accounts 
 	Run: func(cmd *cobra.Command, args []string) {
 		completedTwittererList := buildTwitterList(false)
 		fmt.Println(completedTwittererList)
-		if viper.Get("fileExport") != nil {
+
+		willExport := viper.GetString("fileExport")
+
+		if len(willExport) > 1 {
 			exportParsedTwitterList(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)
 		}
 	},
