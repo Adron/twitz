@@ -70,14 +70,15 @@ func getBearerToken(consumerKey, consumerSecret string) (string, error) {
 func validateRequiredConfig() (bool, error) {
 	allKeys := viper.AllKeys()
 	fmt.Println(allKeys)
+
 	keysPass := true
-	errorsList := []string{""}
+	errorsList := []string{}
 
 	fileFormatSet := Contains(allKeys, "fileformat")
 	fileSet := Contains(allKeys, "file")
 	fileExportSet := Contains(allKeys, "fileexport")
-	consumerApiKeySet := Contains(allKeys, "api_consumer_key")
-	consumerApiSecretSet := Contains(allKeys, "api_consumer_secret")
+	consumerApiKeySet := Contains(allKeys, "api_key")
+	consumerApiSecretSet := Contains(allKeys, "api_secret")
 
 	if !fileFormatSet || !fileSet || !fileExportSet {
 		errorsList = append(errorsList, "Required configuration for export are not set. File format, file, and export values need set in the configuration file.")
@@ -90,9 +91,13 @@ func validateRequiredConfig() (bool, error) {
 	}
 
 	if consumerApiKeySet && consumerApiSecretSet {
-		apiSecret := viper.GetString("api_consumer_secret")
-		apiKey := viper.GetString("api_consumer_key")
-		if len(apiKey) < 6 || len(apiSecret) < 6 {
+		apiKey := viper.GetString("API_KEY")
+		apiSecret := viper.GetString("API_SECRET")
+
+		if len(apiKey) == 0 || len(apiSecret) == 0 {
+			errorsList = append(errorsList, "The API Key and Secret have a zero length and appear to be empty strings.")
+			keysPass = false
+		} else if len(apiKey) < 6 || len(apiSecret) < 6 {
 			errorsList = append(errorsList, "The key or secret key also appear to be malformed. Please verify and enter a correct API Key and Secret.")
 			keysPass = false
 		}

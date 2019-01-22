@@ -33,8 +33,8 @@ var configCmd = &cobra.Command{
 			fmt.Printf("Twitterers File: %s\n", viper.GetString("file"))
 			fmt.Printf("Export File: %s\n", viper.GetString("fileExport"))
 			fmt.Printf("Export Format: %s\n", viper.GetString("fileFormat"))
-			fmt.Printf("Consumer API Key: %s\n", viper.GetString("consumer_api_key")[0:6])
-			fmt.Printf("Consumer API Secret: %s\n", viper.GetString("consumer_api_secret")[0:6])
+			fmt.Printf("Consumer API Key: %s\n", viper.GetString("api_key")[0:6])
+			fmt.Printf("Consumer API Secret: %s\n", viper.GetString("api_secret")[0:6])
 		}
 	},
 }
