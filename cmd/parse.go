@@ -31,7 +31,7 @@ var parseCmd = &cobra.Command{
 	Long: `This command will extract the Twitter Accounts and clean up or disregard other characters 
 or text around the twitter accounts to create a simple, clean, Twitter Accounts only list.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		completedTwittererList := buildTwitterList()
+		completedTwittererList := buildTwitterList(false)
 		fmt.Println(completedTwittererList)
 		if viper.Get("fileExport") != nil {
 			exportParsedTwitterList(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)

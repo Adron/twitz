@@ -35,11 +35,11 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		fmt.Println("Starting Twitter Information Retrieval.")
-		completedTwitterList := buildTwitterList()
+		completedTwitterList := buildTwitterList(true)
 
 		fmt.Printf("Getting Twitter details for: \n%s", completedTwitterList)
 
-		accessToken, err := getBearerToken(viper.GetString("api_consumer_key"), viper.GetString("api_consumer_secret"))
+		accessToken, err := getBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))
 		check(err)
 
 		config := &oauth2.Config{}
@@ -51,6 +51,9 @@ to quickly create a Cobra application.`,
 
 		// users lookup
 		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwitterList}
+
+		fmt.Println(completedTwitterList)
+
 		users, _, _ := client.Users.Lookup(userLookupParams)
 		fmt.Printf("\n\nUsers:\n%+v\n", users)
 

@@ -18,7 +18,7 @@ func check(e error) {
 	}
 }
 
-func buildTwitterList() []string {
+func buildTwitterList(withAtSymbols bool) []string {
 	theFile := viper.GetString("file")
 	theTwitterers, err := ioutil.ReadFile(theFile)
 	check(err)
@@ -29,6 +29,9 @@ func buildTwitterList() []string {
 		if strings.HasPrefix(aField, "@") && aField != "@" {
 			reg, _ := regexp.Compile("[^a-zA-Z0-9_@]")
 			processedString := reg.ReplaceAllString(aField, "")
+			if withAtSymbols {
+				processedString = strings.Trim(processedString, "@")
+			}
 			completedTwittererList = append(completedTwittererList, processedString)
 		}
 	}
@@ -91,8 +94,8 @@ func validateRequiredConfig() (bool, error) {
 	}
 
 	if consumerApiKeySet && consumerApiSecretSet {
-		apiKey := viper.GetString("API_KEY")
-		apiSecret := viper.GetString("API_SECRET")
+		apiKey := viper.GetString("api_key")
+		apiSecret := viper.GetString("api_secret")
 
 		if len(apiKey) == 0 || len(apiSecret) == 0 {
 			errorsList = append(errorsList, "The API Key and Secret have a zero length and appear to be empty strings.")
