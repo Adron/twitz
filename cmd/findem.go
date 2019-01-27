@@ -73,14 +73,6 @@ func printUserToConsole(twitterUser twitter.User) {
 		twitterUser.FollowersCount,
 		twitterUser.FriendsCount)
 	fmt.Println("...\n")
-
-	//
-	//fmt.Println(twitterUser.Email)
-	//fmt.Println(twitterUser.CreatedAt)
-	//fmt.Println(twitterUser.Description)
-	//fmt.Println(twitterUser.FollowersCount)
-	//fmt.Println(twitterUser.FriendsCount)
-	//fmt.Println(twitterUser.Location)
 }
 
 func printUsersToConsole(twitterUsers []twitter.User) {
