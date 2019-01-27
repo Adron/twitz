@@ -35,33 +35,57 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		fmt.Println("Starting Twitter Information Retrieval.")
-		completedTwitterList := buildTwitterList(true)
-
-		fmt.Printf("Getting Twitter details for: \n%s", completedTwitterList)
+		completedTwittererList := buildTwitterList(true)
+		fmt.Printf("Getting Twitter details for: \n%s", completedTwittererList)
 
 		accessToken, err := getBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))
 		check(err)
 
 		config := &oauth2.Config{}
 		token := &oauth2.Token{AccessToken: accessToken}
-		// OAuth2 http.Client will automatically authorize Requests
 		httpClient := config.Client(context.Background(), token)
-		// Twitter client
 		client := twitter.NewClient(httpClient)
 
-		// users lookup
-		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwitterList}
-
-		fmt.Println(completedTwitterList)
+		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwittererList}
 
 		users, _, _ := client.Users.Lookup(userLookupParams)
-		fmt.Printf("\n\nUsers:\n%+v\n", users)
 
 		howManyUsersFound := len(users)
-		fmt.Println(howManyUsersFound)
+		fmt.Printf("Found %s Twitter Accounts.\n", howManyUsersFound)
+
+		willExport := viper.GetString("fileExport")
+		printUsersToConsole(users)
+		if len(willExport) > 1 {
+			fmt.Println("This is where the export will occur for all of the accounts.")
+			//	TODO: Finish this export to whatever the format is.
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(findemCmd)
+}
+
+func printUserToConsole(twitterUser twitter.User) {
+
+	fmt.Printf("Screenname: %s  Name: %s\n", twitterUser.ScreenName, twitterUser.Name)
+	fmt.Printf("Followers: %d  Following: %d\n",
+		twitterUser.FollowersCount,
+		twitterUser.FriendsCount)
+	fmt.Println("...\n")
+
+	//
+	//fmt.Println(twitterUser.Email)
+	//fmt.Println(twitterUser.CreatedAt)
+	//fmt.Println(twitterUser.Description)
+	//fmt.Println(twitterUser.FollowersCount)
+	//fmt.Println(twitterUser.FriendsCount)
+	//fmt.Println(twitterUser.Location)
+}
+
+func printUsersToConsole(twitterUsers []twitter.User) {
+	for _, twitterUser := range twitterUsers {
+		printUserToConsole(twitterUser)
+	}
+	fmt.Println("... ... ... done.")
 }

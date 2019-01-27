@@ -1,3 +1,3 @@
 file: twitterers.txt
-#fileExport: tweeters
+fileExport: tweeters
 fileFormat: txt

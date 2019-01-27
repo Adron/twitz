@@ -77,9 +77,7 @@ func validateRequiredConfig() (bool, error) {
 	keysPass := true
 	errorsList := []string{}
 
-	fileFormatSet := Contains(allKeys, "fileformat")
 	fileSet := Contains(allKeys, "file")
-	fileExportSet := Contains(allKeys, "fileexport")
 	consumerApiKeySet := Contains(allKeys, "api_key")
 	consumerApiSecretSet := Contains(allKeys, "api_secret")
 
