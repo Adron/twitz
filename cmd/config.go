@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/Adron/twitz/helpers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -26,7 +27,7 @@ var configCmd = &cobra.Command{
 	Short: "A quick view into the environment and configuration variables and validation of.",
 	Long:  `This command provides a quick view of the configuration variables of the configuration file and any environment variables, and validation of.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		passed, err := validateRequiredConfig()
+		passed, err := helpers.ValidateRequiredConfig()
 		fmt.Printf("Did validation pass? %t\n%s", passed, err)
 
 		if passed {

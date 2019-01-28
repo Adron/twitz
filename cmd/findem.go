@@ -17,6 +17,8 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"github.com/Adron/twitz/helpers"
+	"github.com/Adron/twitz/twitTwitz"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -35,11 +37,11 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		fmt.Println("Starting Twitter Information Retrieval.")
-		completedTwittererList := buildTwitterList(true)
+		completedTwittererList := helpers.BuildTwitterList(true)
 		fmt.Printf("Getting Twitter details for: \n%s", completedTwittererList)
 
-		accessToken, err := getBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))
-		check(err)
+		accessToken, err := helpers.GetBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))
+		helpers.Check(err)
 
 		config := &oauth2.Config{}
 		token := &oauth2.Token{AccessToken: accessToken}
@@ -54,7 +56,7 @@ to quickly create a Cobra application.`,
 		fmt.Printf("Found %s Twitter Accounts.\n", howManyUsersFound)
 
 		willExport := viper.GetString("fileExport")
-		printUsersToConsole(users)
+		twitTwitz.PrintUsersToConsole(users)
 		if len(willExport) > 1 {
 			fmt.Println("This is where the export will occur for all of the accounts.")
 			//	TODO: Finish this export to whatever the format is.
@@ -64,20 +66,4 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(findemCmd)
-}
-
-func printUserToConsole(twitterUser twitter.User) {
-
-	fmt.Printf("Screenname: %s  Name: %s\n", twitterUser.ScreenName, twitterUser.Name)
-	fmt.Printf("Followers: %d  Following: %d\n",
-		twitterUser.FollowersCount,
-		twitterUser.FriendsCount)
-	fmt.Println("...\n")
-}
-
-func printUsersToConsole(twitterUsers []twitter.User) {
-	for _, twitterUser := range twitterUsers {
-		printUserToConsole(twitterUser)
-	}
-	fmt.Println("... ... ... done.")
 }
