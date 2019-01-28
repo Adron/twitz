@@ -27,3 +27,8 @@ func TestTimeConsuming(t *testing.T) {
 	}
 }
 
+# Refactor the exports into twitTwitz
+
+1. Rename each of the exports for visibility.
+2. Once each is renamed, select all four of those, plus the dependent functions to refactor them by moving them into twitTwitz into a file called exports.go.
+
