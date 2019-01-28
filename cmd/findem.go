@@ -52,9 +52,6 @@ to quickly create a Cobra application.`,
 
 		users, _, _ := client.Users.Lookup(userLookupParams)
 
-		howManyUsersFound := len(users)
-		fmt.Printf("Found %s Twitter Accounts.\n", howManyUsersFound)
-
 		willExport := viper.GetString("fileExport")
 		twitTwitz.PrintUsersToConsole(users)
 		if len(willExport) > 1 {
