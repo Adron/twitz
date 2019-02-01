@@ -37,7 +37,7 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		fmt.Println("Starting Twitter Information Retrieval.")
-		completedTwittererList := helpers.BuildTwitterList(true)
+		completedTwittererList := coreTwitz.BuildTwitterList(true)
 		fmt.Printf("Getting Twitter details for: \n%s", completedTwittererList)
 
 		accessToken, err := helpers.GetBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))

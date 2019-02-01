@@ -6,9 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/spf13/viper"
-	"io/ioutil"
 	"net/http"
-	"regexp"
 	"strings"
 )
 
@@ -16,26 +14,6 @@ func Check(e error) {
 	if e != nil {
 		fmt.Println(e)
 	}
-}
-
-func BuildTwitterList(withAtSymbols bool) []string {
-	theFile := viper.GetString("file")
-	theTwitterers, err := ioutil.ReadFile(theFile)
-	Check(err)
-	stringTwitterers := string(theTwitterers[:])
-	splitFields := strings.Fields(stringTwitterers)
-	var completedTwittererList []string
-	for _, aField := range splitFields {
-		if strings.HasPrefix(aField, "@") && aField != "@" {
-			reg, _ := regexp.Compile("[^a-zA-Z0-9_@]")
-			processedString := reg.ReplaceAllString(aField, "")
-			if withAtSymbols {
-				processedString = strings.Trim(processedString, "@")
-			}
-			completedTwittererList = append(completedTwittererList, processedString)
-		}
-	}
-	return completedTwittererList
 }
 
 func GetBearerToken(consumerKey, consumerSecret string) (string, error) {
@@ -55,7 +33,7 @@ func GetBearerToken(consumerKey, consumerSecret string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("/token request failed: %+v", err)
 	}
-	defer resp.Body.Close()
+	defer Check(resp.Body.Close())
 
 	var v struct {
 		AccessToken string `json:"access_token"`
