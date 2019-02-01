@@ -1,4 +1,4 @@
-package cmd
+package helpers
 
 import (
 	"encoding/base64"
@@ -12,16 +12,16 @@ import (
 	"strings"
 )
 
-func check(e error) {
+func Check(e error) {
 	if e != nil {
 		fmt.Println(e)
 	}
 }
 
-func buildTwitterList(withAtSymbols bool) []string {
+func BuildTwitterList(withAtSymbols bool) []string {
 	theFile := viper.GetString("file")
 	theTwitterers, err := ioutil.ReadFile(theFile)
-	check(err)
+	Check(err)
 	stringTwitterers := string(theTwitterers[:])
 	splitFields := strings.Fields(stringTwitterers)
 	var completedTwittererList []string
@@ -38,7 +38,7 @@ func buildTwitterList(withAtSymbols bool) []string {
 	return completedTwittererList
 }
 
-func getBearerToken(consumerKey, consumerSecret string) (string, error) {
+func GetBearerToken(consumerKey, consumerSecret string) (string, error) {
 	req, err := http.NewRequest("POST", "https://api.twitter.com/oauth2/token",
 		strings.NewReader("grant_type=client_credentials"))
 
@@ -70,7 +70,7 @@ func getBearerToken(consumerKey, consumerSecret string) (string, error) {
 	return v.AccessToken, nil
 }
 
-func validateRequiredConfig() (bool, error) {
+func ValidateRequiredConfig() (bool, error) {
 	allKeys := viper.AllKeys()
 	fmt.Println(allKeys)
 

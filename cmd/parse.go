@@ -18,6 +18,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"github.com/Adron/twitz/helpers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
@@ -31,7 +32,7 @@ var parseCmd = &cobra.Command{
 	Long: `This command will extract the Twitter Accounts and clean up or disregard other characters 
 or text around the twitter accounts to create a simple, clean, Twitter Accounts only list.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		completedTwittererList := buildTwitterList(false)
+		completedTwittererList := helpers.BuildTwitterList(false)
 		fmt.Println(completedTwittererList)
 
 		willExport := viper.GetString("fileExport")
@@ -59,7 +60,7 @@ func exportParsedTwitterList(exportFilename string, exportFormat string, twitter
 func exportXml(exportFilename string, twittererList []string, exportFormat string) {
 	fmt.Printf("Starting xml export to %s.", exportFilename)
 	xmlContent, err := xml.Marshal(twittererList)
-	check(err)
+	helpers.Check(err)
 	header := xml.Header
 	collectedContent := header + string(xmlContent)
 	exportFile(collectedContent, exportFilename+"."+exportFormat)
@@ -85,7 +86,7 @@ func exportJson(exportFilename string, twittererList []string, exportFormat stri
 
 func collectContent(twittererList []string) []byte {
 	collectedContent, err := json.Marshal(twittererList)
-	check(err)
+	helpers.Check(err)
 	return collectedContent
 }
 
@@ -103,7 +104,7 @@ func rebuildForExport(twittererList []string, concat string) string {
 func exportFile(collectedContent string, exportFile string) {
 	contentBytes := []byte(collectedContent)
 	err := ioutil.WriteFile(exportFile, contentBytes, 0644)
-	check(err)
+	helpers.Check(err)
 }
 
 func init() {
