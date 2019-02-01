@@ -1,3 +1,5 @@
 file: twitterers.txt
 fileExport: tweeters
 fileFormat: txt
+cassie: 127.0.0.1
+keyspace: twitz

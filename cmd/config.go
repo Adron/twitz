@@ -36,6 +36,7 @@ var configCmd = &cobra.Command{
 			fmt.Printf("Export Format: %s\n", viper.GetString("fileFormat"))
 			fmt.Printf("Consumer API Key: %s\n", viper.GetString("api_key")[0:6])
 			fmt.Printf("Consumer API Secret: %s\n", viper.GetString("api_secret")[0:6])
+			fmt.Printf("Cassandra Cluster Addresses: %s\n", viper.GetString("cassie"))
 		}
 	},
 }

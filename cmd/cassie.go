@@ -20,21 +20,24 @@ import (
 	"github.com/Adron/twitz/coreTwitz"
 	"github.com/Adron/twitz/helpers"
 	"github.com/dghubble/go-twitter/twitter"
+	"github.com/gocql/gocql"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
+	"log"
 )
 
-var findemCmd = &cobra.Command{
-	Use:   "findem",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+// configCmd represents the config command
+var cassieCmd = &cobra.Command{
+	Use:   "cassie",
+	Short: "This command executes parse and inserts the results into Apache Cassandra.",
+	Long:  `This command executes parse and inserts the results into Apache Cassandra based on an existing keyspace of "twitz" and respective tables: "accounts". For more details check out the database documentation @ https://github.com/Adron/twitz/database.md for the command.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		cluster := gocql.NewCluster(viper.GetString("cassie"))
+		cluster.Keyspace = viper.GetString("keyspace")
+		cluster.Consistency = gocql.Quorum
+		session, _ := cluster.CreateSession()
+		defer session.Close()
 
 		fmt.Println("Starting Twitter Information Retrieval.")
 		completedTwittererList := coreTwitz.BuildTwitterList(true)
@@ -50,20 +53,18 @@ to quickly create a Cobra application.`,
 
 		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwittererList}
 
-		users, _, _ := client.Users.Lookup(userLookupParams)
+		twitterUsers, _, _ := client.Users.Lookup(userLookupParams)
 
-		howManyUsersFound := len(users)
-		fmt.Printf("Found %d Twitter Accounts.\n", howManyUsersFound)
+		for _, twitterUser := range twitterUsers {
 
-		willExport := viper.GetString("fileExport")
-		coreTwitz.PrintUsersToConsole(users)
-		if len(willExport) > 1 {
-			fmt.Println("This is where the export will occur for all of the accounts.")
-			//	TODO: Finish this export to whatever the format is.
+			if err := session.Query(`INSERT INTO twitz.twitterers (id, handle, name) VALUES (?, ?, ?)`,
+				gocql.TimeUUID(), twitterUser.Name, twitterUser.ScreenName).Exec(); err != nil {
+				log.Fatal(err)
+			}
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(findemCmd)
+	rootCmd.AddCommand(cassieCmd)
 }
