@@ -18,7 +18,7 @@ No official install process yet besides the ole' `go get` or `go install` method
 
 etc.
 
-## Post Installation Prereqs
+## Post Installation Prerequisites
 
 Once the command is built and ready for use, you'll need to get your .twitz.yaml, twitterers.txt, and export files configured.
 

@@ -33,7 +33,7 @@ func GetBearerToken(consumerKey, consumerSecret string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("/token request failed: %+v", err)
 	}
-	defer Check(resp.Body.Close())
+	defer resp.Body.Close()
 
 	var v struct {
 		AccessToken string `json:"access_token"`
@@ -74,7 +74,7 @@ func ValidateRequiredConfig() (bool, error) {
 		apiSecret := viper.GetString("api_secret")
 
 		if len(apiKey) == 0 || len(apiSecret) == 0 {
-			errorsList = append(errorsList, "The API Key and Secret have a zero length and appear to be empty strings.")
+			errorsList = append(errorsList, "The API Key and Secret have a zero length and appear to be empty strings. Please set the TWITZ_API_KEY and TWITZ_API_SECRET environment variables.")
 			keysPass = false
 		} else if len(apiKey) < 6 || len(apiSecret) < 6 {
 			errorsList = append(errorsList, "The key or secret key also appear to be malformed. Please verify and enter a correct API Key and Secret.")
