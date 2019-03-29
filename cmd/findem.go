@@ -15,14 +15,10 @@
 package cmd
 
 import (
-	"context"
 	"fmt"
 	"github.com/Adron/twitz/coreTwitz"
-	"github.com/Adron/twitz/helpers"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"golang.org/x/oauth2"
 )
 
 var findemCmd = &cobra.Command{
@@ -35,33 +31,27 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-
-		fmt.Println("Starting Twitter Information Retrieval.")
-		completedTwittererList := coreTwitz.BuildTwitterList(true)
-		fmt.Printf("Getting Twitter details for: \n%s", completedTwittererList)
-
-		accessToken, err := helpers.GetBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))
-		helpers.Check(err)
-
-		config := &oauth2.Config{}
-		token := &oauth2.Token{AccessToken: accessToken}
-		httpClient := config.Client(context.Background(), token)
-		client := twitter.NewClient(httpClient)
-
+		// Step 1: Get list of Twitter accounts to query for.
+		completedTwittererList := parseTwittererList()
+		// Step 2: Get the Twitter client setup.
+		twitterClient := coreTwitz.SetupConnection()
+		// Step 3: Setup the parameters for the Twitter query for the Twitter accounts.
 		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwittererList}
-
-		users, _, _ := client.Users.Lookup(userLookupParams)
-
-		howManyUsersFound := len(users)
-		fmt.Printf("Found %d Twitter Accounts.\n", howManyUsersFound)
-
-		willExport := viper.GetString("fileExport")
+		// Step 4: Query the Twitter API for the account information.
+		users, _, _ := twitterClient.Users.Lookup(userLookupParams)
+		// Step 5: Print out the results to configured and pertinent outputs.
+		var p = coreTwitz.TwitterDerived{TwitterAccounts: users}
+		coreTwitz.ProcessTwitterAccounts(p)
 		coreTwitz.PrintUsersToConsole(users)
-		if len(willExport) > 1 {
-			fmt.Println("This is where the export will occur for all of the accounts.")
-			//	TODO: Finish this export to whatever the format is.
-		}
+		// Profit. Or ya know, be done with it.
 	},
+}
+
+func parseTwittererList() []string {
+	fmt.Println("Starting Twitter Information Retrieval.")
+	completedTwittererList := coreTwitz.BuildTwitterList(true)
+	fmt.Printf("Getting Twitter details for: \n%s", completedTwittererList)
+	return completedTwittererList
 }
 
 func init() {

@@ -1,15 +1,10 @@
-Sample File Created by @Adron for the Project on @ThrashingCode Twitch.
+@Adron @Lenadroid @NotMyself
 
-@ladieswholinux have an awesome kick ass death metal avatar image.
 
-@AngrySeattle is angry Seattle.
+This is a sample twitterers.txt file created by @Adron.
 
-@Microsoft,
-@Google,
-@Cheese.
+You can add a list like this; @Adron, @angryseattle, and @jessefraz or you could go horizontal!
 
-@cmgriffing is another Twitter handle just like a Twitch handle!
-
-@
-
-This is a great sample file!
+@Adron
+@angryseattle
+@pdxtst

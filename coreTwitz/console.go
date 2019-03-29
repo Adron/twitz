@@ -6,7 +6,6 @@ import (
 )
 
 func PrintUserToConsole(twitterUser twitter.User) {
-
 	fmt.Printf("Screenname: %s  Name: %s\n", twitterUser.ScreenName, twitterUser.Name)
 	fmt.Printf("Followers: %d  Following: %d\n",
 		twitterUser.FollowersCount,

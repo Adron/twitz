@@ -15,10 +15,8 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/Adron/twitz/coreTwitz"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // parseCmd represents the parse command
@@ -29,28 +27,9 @@ var parseCmd = &cobra.Command{
 or text around the twitter accounts to create a simple, clean, Twitter Accounts only list.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		completedTwittererList := coreTwitz.BuildTwitterList(false)
-		fmt.Println(completedTwittererList)
-
-		willExport := viper.GetString("fileExport")
-
-		if len(willExport) > 1 {
-			exportParsedTwitterList(viper.GetString("fileExport"), viper.GetString("fileFormat"), completedTwittererList)
-		}
+		var p = coreTwitz.TwitterParsed{TwitterNames: completedTwittererList}
+		coreTwitz.ProcessTwitterAccounts(p)
 	},
-}
-
-func exportParsedTwitterList(exportFilename string, exportFormat string, twittererList []string) {
-	if exportFormat == "txt" {
-		coreTwitz.ExportTxt(exportFilename, twittererList, exportFormat)
-	} else if exportFormat == "json" {
-		coreTwitz.ExportJson(exportFilename, twittererList, exportFormat)
-	} else if exportFormat == "xml" {
-		coreTwitz.ExportXml(exportFilename, twittererList, exportFormat)
-	} else if exportFormat == "csv" {
-		coreTwitz.ExportCsv(exportFilename, twittererList, exportFormat)
-	} else {
-		fmt.Println("Export type unsupported.")
-	}
 }
 
 func init() {
