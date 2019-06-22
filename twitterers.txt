@@ -1,4 +1,4 @@
-@Adron @Lenadroid @NotMyself
+@Adron @Lenadroid @NotMyself @Thrashingcode
 
 
 This is a sample twitterers.txt file created by @Adron.
@@ -10,3 +10,13 @@ You can add a list like this; @Adron, @angryseattle, and @jessefraz or you could
 @pdxtst
 
 @editingemily
+
+
+@ApacheSpark @apachekafka
+
+@Azure @awscloud @gcpcloud @hashicorp
+
+@sqlvanorden aka Skull Crusher 4 Life on the Twitch
+
+
+

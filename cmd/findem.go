@@ -17,19 +17,19 @@ package cmd
 import (
 	"fmt"
 	"github.com/Adron/twitz/coreTwitz"
+	"github.com/Adron/twitz/helpers"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/spf13/cobra"
 )
 
 var findemCmd = &cobra.Command{
 	Use:   "findem",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "The 'twitz findem' command goes through the parsed list of Twitter accounts and retrieves some basic data for each account.",
+	Long: `The 'twitz findem' command goes through the parsed list of Twitter accounts and retrieves some basic data for each account.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+That data includes:
+ * Something
+ * Another`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Step 1: Get list of Twitter accounts to query for.
 		completedTwittererList := parseTwittererList()
@@ -38,7 +38,8 @@ to quickly create a Cobra application.`,
 		// Step 3: Setup the parameters for the Twitter query for the Twitter accounts.
 		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwittererList}
 		// Step 4: Query the Twitter API for the account information.
-		users, _, _ := twitterClient.Users.Lookup(userLookupParams)
+		users, _, err := twitterClient.Users.Lookup(userLookupParams)
+		helpers.Check(err)
 		// Step 5: Print out the results to configured and pertinent outputs.
 		var p = coreTwitz.TwitterDerived{TwitterAccounts: users}
 		coreTwitz.ProcessTwitterAccounts(p)
