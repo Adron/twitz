@@ -3,7 +3,7 @@
 
 This is a sample twitterers.txt file created by @Adron.
 
-You can add a list like this; @Adron, @angryseattle, and @jessefraz or you could go horizontal!
+You can add a list like this; @Adron, @angryseattle, and @jessfraz or you could go horizontal!
 
 @Adron
 @angryseattle
@@ -17,6 +17,3 @@ You can add a list like this; @Adron, @angryseattle, and @jessefraz or you could
 @Azure @awscloud @gcpcloud @hashicorp
 
 @sqlvanorden aka Skull Crusher 4 Life on the Twitch
-
-
-

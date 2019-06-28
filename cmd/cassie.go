@@ -21,10 +21,10 @@ import (
 	"github.com/Adron/twitz/helpers"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/gocql/gocql"
+	uuid "github.com/satori/go.uuid"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
-	"log"
 )
 
 // configCmd represents the config command
@@ -35,14 +35,11 @@ var cassieCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cluster := gocql.NewCluster(viper.GetString("cassie"))
 		cluster.Keyspace = viper.GetString("keyspace")
-		cluster.Consistency = gocql.Quorum
+		cluster.Consistency = gocql.One
 		session, _ := cluster.CreateSession()
 		defer session.Close()
 
-		fmt.Println("Starting Twitter Information Retrieval.")
 		completedTwittererList := coreTwitz.BuildTwitterList(true)
-		fmt.Printf("Getting Twitter details for: \n%s", completedTwittererList)
-
 		accessToken, err := helpers.GetBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))
 		helpers.Check(err)
 
@@ -54,13 +51,31 @@ var cassieCmd = &cobra.Command{
 		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwittererList}
 
 		twitterUsers, _, _ := client.Users.Lookup(userLookupParams)
+		fmt.Println("\nBeginning data insert of accounts.")
 
 		for _, twitterUser := range twitterUsers {
+			fmt.Printf("\nUser: %s", twitterUser.ScreenName)
 
-			if err := session.Query(`INSERT INTO twitz.twitterers (id, handle, name) VALUES (?, ?, ?)`,
-				gocql.TimeUUID(), twitterUser.Name, twitterUser.ScreenName).Exec(); err != nil {
-				log.Fatal(err)
-			}
+			newUUID := uuid.NewV4()
+			preparedUUID, _ := gocql.ParseUUID(newUUID.String())
+			fmt.Printf("\nUUIDv4: %s\n", preparedUUID)
+
+			helpers.Check(session.Query(`INSERT INTO twitz.twitteraccounts (id, username, name, createat, 
+				description, email, followerscount, friendscount, following, twitterid, twitteridstr, listedcount, location) 
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) IF NOT EXISTS;`,
+				preparedUUID,
+				twitterUser.ScreenName,
+				twitterUser.Name,
+				twitterUser.CreatedAt,
+				twitterUser.Description,
+				twitterUser.Email,
+				twitterUser.FollowersCount,
+				twitterUser.FriendsCount,
+				twitterUser.Following,
+				twitterUser.ID,
+				twitterUser.IDStr,
+				twitterUser.ListedCount,
+				twitterUser.Location).Exec())
 		}
 	},
 }
