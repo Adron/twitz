@@ -1,1 +1,1 @@
-DROP KEYSPACE twitzers
+DROP KEYSPACE twitz
