@@ -12,11 +12,9 @@ No official install process yet besides the ole' `go get` or `go install` method
 
 ## Dev Setup
 
-`dep ensure` to get the dependencies.
-
-`go build` to build and use the executable.
-
-etc.
+1. Make sure you have Go modules enabled.
+2. `go build` to build and use the executable.
+3. Profit. i.e. use the CLI tool.
 
 ## Post Installation Prerequisites
 
