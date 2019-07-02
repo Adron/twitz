@@ -1,10 +1,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/go'
-    args: ['install', '.']
-    env: ['PROJECT_ROOT=twitz']
-  - name: 'gcr.io/cloud-builders/go'
-    args: ['build', 'hello']
-    env: ['PROJECT_ROOT=twitz']
+    args: ['build', 'twitz']
+    env: ['PROJECT_ROOT=twitz','GO111MODULE=on']
 artifacts:
   objects:
     location: 'gs://thrashing-code-builds/'
