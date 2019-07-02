@@ -1,7 +1,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/go'
     args: ['build', 'twitz']
-    env: ['PROJECT_ROOT=twitz','GO111MODULE=on']
+    env: ['PROJECT_ROOT=twitz','GO111MODULE=on','GOPROXY=https://proxy.golang.org']
 artifacts:
   objects:
     location: 'gs://thrashing-code-builds/'
