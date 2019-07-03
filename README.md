@@ -59,4 +59,6 @@ First and foremost you'll need a text file of Twitter accounts listed in a file 
 
 `twitz parse` this is the main command that'll parse out the *twitterers.txt* file and provide a list of any Twitter accounts in the file to the console.
 
-`twitz findem` ... TBD ...
+`twitz findem` this command retrieves Twitter account information from the Twitter API.
+
+`twitz cassie` this command will retrieve Twitter information for the accounts and insert the data into an Apache Cassandra Database.
