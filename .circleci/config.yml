@@ -31,9 +31,9 @@ jobs:
             - "/go/pkg/mod"
 
       - run: 
-        name: Enable GoModules
-        command: echo 'export GO111MODULE=on' >> $BASH_ENV
+          name: Enable GoModules
+          command: echo 'export GO111MODULE=on' >> $BASH_ENV
         
       - run:
-        name: Build application
-        command: go build
+          name: Build application
+          command: go build
