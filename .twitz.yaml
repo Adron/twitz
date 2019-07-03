@@ -1,5 +1,5 @@
 file: twitterers.txt
 fileExport: tweeters
-fileFormat: txt
+fileFormat: xml
 cassie: 172.19.0.10
 keyspace: twitz
