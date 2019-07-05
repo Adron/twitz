@@ -3,5 +3,7 @@
 IP="172.19.0.10"
 
 echo 'Working against '${IP}'. Starting Apache Cassandra Schema Migrations.'
-cqlsh -f 'cassandra/inception.cql'  ${IP}
-cqlsh -f 'cassandra/20190325_create_table.up.cql' ${IP}
+#cqlsh -f 'cassandra/inception.cql'  ${IP}
+#cqlsh -f 'cassandra/20190325_create_table.up.cql' ${IP}
+
+#migrate -source file://cassandra/ -database cassandra://@IP/twitz up
