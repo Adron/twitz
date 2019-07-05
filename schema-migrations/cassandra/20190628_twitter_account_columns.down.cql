@@ -1,33 +1,30 @@
 alter table twitz.twitteraccounts
-    add name text;
+    drop name;
 
 alter table twitz.twitteraccounts
-    add createAt text;
+    drop createAt;
 
 alter table twitz.twitteraccounts
-    add description text;
+    drop description;
 
 alter table twitz.twitteraccounts
-    add email text;
+    drop followersCount;
 
 alter table twitz.twitteraccounts
-    add followersCount int;
+    drop friendsCount;
 
 alter table twitz.twitteraccounts
-    add friendsCount int;
+    drop following;
 
 alter table twitz.twitteraccounts
-    add following boolean;
+    drop twitterID;
 
 alter table twitz.twitteraccounts
-    add twitterID bigint;
+    drop twitterIDstr;
 
 alter table twitz.twitteraccounts
-    add twitterIDstr text;
+    drop listedCount;
 
 alter table twitz.twitteraccounts
-    add listedCount int;
-
-alter table twitz.twitteraccounts
-    add location text;
+    drop location;
 

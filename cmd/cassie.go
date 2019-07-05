@@ -61,8 +61,9 @@ var cassieCmd = &cobra.Command{
 			fmt.Printf("\nUUIDv4: %s\n", preparedUUID)
 
 			helpers.Check(session.Query(`INSERT INTO twitz.twitteraccounts (id, username, name, createat, 
-				description, email, followerscount, friendscount, following, twitterid, twitteridstr, listedcount, location) 
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) IF NOT EXISTS;`,
+				description, email, followerscount, friendscount, following, twitterid, twitteridstr, listedcount, 
+				location, geoEnabled, profileImageUri, profileBackgroundImageUri, statusesCount) 
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) IF NOT EXISTS;`,
 				preparedUUID,
 				twitterUser.ScreenName,
 				twitterUser.Name,
@@ -75,7 +76,11 @@ var cassieCmd = &cobra.Command{
 				twitterUser.ID,
 				twitterUser.IDStr,
 				twitterUser.ListedCount,
-				twitterUser.Location).Exec())
+				twitterUser.Location,
+				twitterUser.GeoEnabled,
+				twitterUser.ProfileImageURL,
+				twitterUser.ProfileBackgroundImageURL,
+				twitterUser.StatusesCount).Exec())
 		}
 	},
 }
