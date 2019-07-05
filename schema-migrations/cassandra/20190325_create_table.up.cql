@@ -1,4 +1,4 @@
-create table twitz.twitterAccounts
+create table if not exists twitz.twitterAccounts
 (
     id uuid,
     username text,
