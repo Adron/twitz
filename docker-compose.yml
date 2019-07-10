@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  cassie:
+    image: cassandra:3.11.4
+    ports:
+      - "9042:9042"
+    restart: always
+    volumes: 
+      - ./schema-migrations/cassandra:/schema-migrations
