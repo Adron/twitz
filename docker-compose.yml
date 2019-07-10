@@ -12,3 +12,13 @@ services:
     restart: always
     volumes: 
       - ./schema-migrations/cassandra:/schema-migrations
+    networks:
+      default:
+        ipv4_address: "172.22.0.1"
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.22.0.0/16"
