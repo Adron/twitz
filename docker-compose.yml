@@ -5,6 +5,10 @@ services:
     image: cassandra:3.11.4
     ports:
       - "9042:9042"
+      - "7000:7000"
+      - "7001:7001"
+      - "7199:7199"
+      - "9160:9160"
     restart: always
     volumes: 
       - ./schema-migrations/cassandra:/schema-migrations
