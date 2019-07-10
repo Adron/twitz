@@ -14,7 +14,7 @@ services:
       - ./schema-migrations/cassandra:/schema-migrations
     networks:
       default:
-        ipv4_address: "172.22.0.1"
+        ipv4_address: "172.22.0.5"
 
 networks:
   default:
