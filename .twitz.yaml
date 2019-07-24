@@ -1,5 +1,5 @@
 file: twitterers.txt
 fileExport: tweeters
 fileFormat: txt
-cassie: 172.19.0.10
+cassie: 172.22.0.5
 keyspace: twitz

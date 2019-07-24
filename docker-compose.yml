@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  cassie:
+    image: cassandra:3.11.4
+    ports:
+      - "9042:9042"
+      - "7000:7000"
+      - "7001:7001"
+      - "7199:7199"
+      - "9160:9160"
+    restart: always
+    volumes:
+      - ./migrations/cassandra:/migrations
+    networks:
+      default:
+        ipv4_address: "172.22.0.5"
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.22.0.0/16"
