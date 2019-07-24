@@ -1,1 +1,1 @@
-DROP TABLE twitz.twitterAccounts
+DROP TABLE twitz.twitterAccounts;

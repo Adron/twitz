@@ -20,7 +20,7 @@ jobs:
     working_directory: /go/src/github.com/Adron/twitz
     steps:
       - checkout
-      
+
       - restore_cache:
           keys:
             - go-mod-v1-{{ checksum "go.sum" }}
@@ -30,10 +30,10 @@ jobs:
           paths:
             - "/go/pkg/mod"
 
-      - run: 
+      - run:
           name: Enable GoModules
           command: echo 'export GO111MODULE=on' >> $BASH_ENV
-        
+
       - run:
           name: Build application
           command: go build

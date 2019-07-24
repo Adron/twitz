@@ -1,5 +1,7 @@
 @Adron @Lenadroid @NotMyself @Thrashingcode
 
+@Microsoft builds software
+
 
 This is a sample twitterers.txt file created by @Adron.
 
@@ -11,9 +13,16 @@ You can add a list like this; @Adron, @angryseattle, and @jessfraz or you could 
 
 @editingemily
 
-
 @ApacheSpark @apachekafka
 
 @Azure @awscloud @gcpcloud @hashicorp
 
 @sqlvanorden aka Skull Crusher 4 Life on the Twitch
+
+Who's Online Today:
+
+@NotMyself
+@digitaldrummerj
+
+@ChiefScientist @codereflection @rickasaurus
+@jaydestro @tammybutow @erinrifkin @sarah_edo @marcysutton

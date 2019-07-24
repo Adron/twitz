@@ -15,16 +15,10 @@
 package cmd
 
 import (
-	"context"
 	"fmt"
 	"github.com/Adron/twitz/coreTwitz"
-	"github.com/Adron/twitz/helpers"
-	"github.com/dghubble/go-twitter/twitter"
-	"github.com/gocql/gocql"
-	uuid "github.com/satori/go.uuid"
+	"github.com/Adron/twitz/storage"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"golang.org/x/oauth2"
 )
 
 // configCmd represents the config command
@@ -33,54 +27,17 @@ var cassieCmd = &cobra.Command{
 	Short: "This command executes parse and inserts the results into Apache Cassandra.",
 	Long:  `This command executes parse and inserts the results into Apache Cassandra based on an existing keyspace of "twitz" and respective tables: "accounts". For more details check out the database documentation @ https://github.com/Adron/twitz/database.md for the command.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cluster := gocql.NewCluster(viper.GetString("cassie"))
-		cluster.Keyspace = viper.GetString("keyspace")
-		cluster.Consistency = gocql.One
-		session, _ := cluster.CreateSession()
-		defer session.Close()
+		cassieSession := storage.GetCassieSession()
+		defer cassieSession.Close()
 
-		completedTwittererList := coreTwitz.BuildTwitterList(true)
-		accessToken, err := helpers.GetBearerToken(viper.GetString("api_key"), viper.GetString("api_secret"))
-		helpers.Check(err)
-
-		config := &oauth2.Config{}
-		token := &oauth2.Token{AccessToken: accessToken}
-		httpClient := config.Client(context.Background(), token)
-		client := twitter.NewClient(httpClient)
-
-		userLookupParams := &twitter.UserLookupParams{ScreenName: completedTwittererList}
-
-		twitterUsers, _, _ := client.Users.Lookup(userLookupParams)
-		fmt.Println("\nBeginning data insert of accounts.")
+		twitterList := coreTwitz.BuildTwitterList(true)
+		twitterClient := coreTwitz.GetTwitterClient()
+		twitterUsers := coreTwitz.GetTwitterDetails(twitterClient, twitterList)
 
 		for _, twitterUser := range twitterUsers {
 			fmt.Printf("\nUser: %s", twitterUser.ScreenName)
 
-			newUUID := uuid.NewV4()
-			preparedUUID, _ := gocql.ParseUUID(newUUID.String())
-			fmt.Printf("\nUUIDv4: %s\n", preparedUUID)
-
-			helpers.Check(session.Query(`INSERT INTO twitz.twitteraccounts (id, username, name, createat, 
-				description, email, followerscount, friendscount, following, twitterid, twitteridstr, listedcount, 
-				location, geoEnabled, profileImageUri, profileBackgroundImageUri, statusesCount) 
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) IF NOT EXISTS;`,
-				preparedUUID,
-				twitterUser.ScreenName,
-				twitterUser.Name,
-				twitterUser.CreatedAt,
-				twitterUser.Description,
-				twitterUser.Email,
-				twitterUser.FollowersCount,
-				twitterUser.FriendsCount,
-				twitterUser.Following,
-				twitterUser.ID,
-				twitterUser.IDStr,
-				twitterUser.ListedCount,
-				twitterUser.Location,
-				twitterUser.GeoEnabled,
-				twitterUser.ProfileImageURL,
-				twitterUser.ProfileBackgroundImageURL,
-				twitterUser.StatusesCount).Exec())
+			storage.InsertTwitterAccount(cassieSession, twitterUser)
 		}
 	},
 }

@@ -78,3 +78,10 @@ func exportFile(collectedContent string) {
 		helpers.Check(err)
 	}
 }
+
+func GetTwitterDetails(client twitter.Client, list []string) []twitter.User {
+	userLookupParams := &twitter.UserLookupParams{ScreenName: list}
+	twitterUsers, _, _ := client.Users.Lookup(userLookupParams)
+	return twitterUsers
+}
+
