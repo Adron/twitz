@@ -1,1 +1,2 @@
-DROP TABLE twitz.twitterAccounts;
+drop table twitz.twitterAccounts;
+drop keyspace twitz;
