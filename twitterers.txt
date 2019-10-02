@@ -1,28 +1,37 @@
-@Adron @Lenadroid @NotMyself @Thrashingcode
+Get these folks on a database yo!
 
-@Microsoft builds software
+@danhigham @drpoindexter
 
-
-This is a sample twitterers.txt file created by @Adron.
-
-You can add a list like this; @Adron, @angryseattle, and @jessfraz or you could go horizontal!
-
-@Adron
-@angryseattle
-@pdxtst
-
-@editingemily
-
-@ApacheSpark @apachekafka
-
-@Azure @awscloud @gcpcloud @hashicorp
-
-@sqlvanorden aka Skull Crusher 4 Life on the Twitch
-
-Who's Online Today:
-
-@NotMyself
-@digitaldrummerj
-
-@ChiefScientist @codereflection @rickasaurus
-@jaydestro @tammybutow @erinrifkin @sarah_edo @marcysutton
+@dekkagaijin
+@joeinglish
+@bketelsen
+@RickStrahl
+@nycplayer
+@XanderGrzy
+@KenCrandall
+@kellogh
+@tedder42
+@juliangruber
+@aidapsibr
+@TeaDrivenDev
+@rgarner
+@transitrunner
+@nvcexploder
+@codereflection
+@killerswan
+@hackosaurus_rex
+@Milnertweet
+@axiomista
+@thecaitcode
+@ellenkorbes
+@TashasEv
+@bradwilson
+@killerswan
+@skpodila
+@slacknroll
+@jaydestro
+@jen20
+@ashr
+@calehoopes
+@secretasianman
+@ianfoo

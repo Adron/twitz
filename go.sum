@@ -26,8 +26,12 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dghubble/go-twitter v0.0.0-20190512073027-53f972dc4b06 h1:eg2cM+xR5Bgm4hgJ5xmtbOkgDAJSOXP4WGr2hEFdqe4=
 github.com/dghubble/go-twitter v0.0.0-20190512073027-53f972dc4b06/go.mod h1:6beqTZaXeBPti9pDBcBEqxfJc7uCbSafqZPRDPQOKoM=
+github.com/dghubble/go-twitter v0.0.0-20190719072343-39e5462e111f h1:M2wB039zeS1/LZtN/3A7tWyfctiOBL4ty5PURBmDdWU=
+github.com/dghubble/go-twitter v0.0.0-20190719072343-39e5462e111f/go.mod h1:xfg4uS5LEzOj8PgZV7SQYRHbG7jPUnelEiaAVJxmhJE=
 github.com/dghubble/sling v1.2.0 h1:PYGS9ofwbV9nfhB1kYjB1vtXshMxlp2oQxTMMXVJ5pE=
 github.com/dghubble/sling v1.2.0/go.mod h1:ZcPRuLm0qrcULW2gOrjXrAWgf76sahqSyxXyVOvkunE=
+github.com/dghubble/sling v1.3.0 h1:pZHjCJq4zJvc6qVQ5wN1jo5oNZlNE0+8T/h0XeXBUKU=
+github.com/dghubble/sling v1.3.0/go.mod h1:XXShWaBWKzNLhu2OxikSNFrlsvowtz4kyRuXUG7oQKY=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8PWV+bWy6jNmig1y/TA+kYO4g3RSRF0IAv0no=
 github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=
@@ -39,6 +43,8 @@ github.com/go-logfmt/logfmt v0.4.0/go.mod h1:3RMwSq7FuexP4Kalkev3ejPJsZTpXXBr9+V
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
 github.com/gocql/gocql v0.0.0-20190625081230-a325bb279f08 h1:xAGzLz7rhhi2ym4+BK1ir0JYxqNpJnYlLTOQnC8UirM=
 github.com/gocql/gocql v0.0.0-20190625081230-a325bb279f08/go.mod h1:Q7Sru5153KG8D9zwueuQJB3ccJf9/bIwF/x8b3oKgT8=
+github.com/gocql/gocql v0.0.0-20190927095247-bd5f930c6137 h1:wG4wMws9HTt8qpg/3tPbgAU72JXGreOb6SLO4NXNMWc=
+github.com/gocql/gocql v0.0.0-20190927095247-bd5f930c6137/go.mod h1:Q7Sru5153KG8D9zwueuQJB3ccJf9/bIwF/x8b3oKgT8=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/gogo/protobuf v1.2.1/go.mod h1:hp+jE20tsWTFYpLwKvXlhS1hjn+gTNwPg2I6zVXpSg4=
 github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b/go.mod h1:SBH7ygxi8pfUlaOkMMuAQtPIUF8ecWP5IEl/CR7VP2Q=
